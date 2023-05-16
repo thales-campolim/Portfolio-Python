@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-#carregando bibliotecas
+#import libraries 
 
 import datetime
 import pandas as pd # manipulação de dado em formato de dataframe
@@ -15,14 +9,11 @@ import numpy as np # biblioteca para operações matemáticas multidimensionais
 from scipy.stats import linregress
 
 
-# In[22]:
-
-
-#carregando base
+#Loading database
 
 df_corrida = pd.read_csv('Performancecorrida.csv',parse_dates=['Data'],dayfirst=True, delimiter=';')
 
-#define a coluna data como indice
+#Setting 'Date'as index
 
 df_corrida.set_index('Data', inplace=True)
 
