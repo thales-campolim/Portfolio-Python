@@ -24,51 +24,40 @@ df_corrida['Distancia(km)'] = pd.to_numeric(df_corrida['Distancia(km)'], errors=
 df_corrida['1km'] = pd.to_numeric(df_corrida['1km'], errors='coerce').astype(float)
 
 
-#cria através das colunas de duração(s) e distância(km) a velocidade em km/h
+#Calculate speed through duration(s) and distance(km)
 
 df_corrida['tempo_h'] = (df_corrida['Duração(segundos)'] / 3600.0)
 df_corrida['Km/h médio'] = (df_corrida['Distancia(km)'] / df_corrida['tempo_h']).round(2)
 
 
-# In[111]:
+
+#Check if all the data is in the correct type
+df_corrida.info()
+
+#Show the dataset
+
+df_corrida
+
+#Check for null values and its position
+
+valores_nulos = df_corrida.loc[df_corrida['Distancia(km)'].isnull()]
+valores_nulos
 
 
-#características das variáveis do dataset
-#df_corrida.info()
-
-#motra o data set
-
-#df_corrida
-
-#verificar se tem valores nulos, e as posições
-
-#valores_nulos = df_corrida.loc[df_corrida['Distancia(km)'].isnull()]
-#valores_nulos
-
-
-
-# In[14]:
-
-
-#calcula a média de ritmo por mês, e o número de corridas no mês
+#calcula a média de ritmo por mês, e o número de corridas no mêsCalculate the monthly average speed, number of runs, and distance.
 
 media_mensal = df_corrida.groupby(pd.Grouper(freq='M')).agg({'Km/h médio': ['mean', 'count'],'Distancia(km)': ['sum'],'1km': ['mean']}).round(2)
 
-#renomeia o nome das colunas
+#Rename collums
 
 media_mensal.columns = ['Km/h médio', 'Número de Corridas','Distancia mensal','1km']
 
 
-# In[5]:
-
-
-# muda o estilo gráfico a ser utilizado.
+#Set graph style
 
 plt.style.use(['ggplot'])
 
-
-# In[298]:
-
+#Show average speedy, number of runs, and distance distributuion
 
 plt.figure(figsize=(10,3))
 
@@ -89,15 +78,13 @@ plt.xticks(np.arange(5, max(media_mensal['Distancia mensal']), 10))
 plt.show()
 
 
-# In[316]:
+#Plot line charts for number of runs and average speed, and tendence lines
 
+# Set graphics size
 
-# traça os graficos de número de corridas e velocidade média mensais
-
-# Set o tamanho das figuras
 plt.figure(figsize=(12,6))
 
-# Gráfico de corridas por mês
+#Number of runs chart
 
 plt.subplot(2,1,1)
 
@@ -116,7 +103,7 @@ plt.tick_params(axis='both', labelsize=11)
 plt.plot(media_mensal.index, line,color = 'blue', alpha=0.1, label='tendência')
 plt.legend()
 
-# Gráfico de velocidade média por mês e tenência
+# Average speed chart
 
 plt.subplot(2,1,2)
 
@@ -137,9 +124,7 @@ plt.plot(media_mensal.index, line,color = 'darkslateblue', alpha=0.1, label='ten
 plt.legend()
 plt.show()
 
-
-# In[346]:
-
+#Bar chart for monthly distance
 
 plt.figure(figsize=(12,5))
 plt.bar(media_mensal.index, media_mensal['Distancia mensal'], color= 'steelblue',width=15)
@@ -150,25 +135,17 @@ for (i,valor) in enumerate(media_mensal['Km/h médio'], start=0):
 plt.show()
 
 
-# In[ ]:
+# Pearson correlation test
 
-
-# Calcula a correlação de Pearson
 corr = df_corrida['1km'].corr(df_corrida['Ritmo médio'])
 
-# Obtém o coeficiente de correlação
+# Correlation coeficient
 coef_corr = np.corrcoef(df_corrida['1km'], df_corrida['Ritmo médio'])[0, 1]
 
-# Exibe o resultado
+# Shows results
 print(f"A correlação de Pearson entre as variáveis é: {corr}")
 print(f"O coeficiente de correlação é: {coef_corr}")
 
 
-# In[ ]:
 
-
-plt.figure(figsize=(10,2))
-
-#plt.subplot(1,2,1)
-plt.scatter(df_corrida.index,df_corrida['1km'])
 
