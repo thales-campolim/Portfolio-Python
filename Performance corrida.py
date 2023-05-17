@@ -17,14 +17,11 @@ df_corrida = pd.read_csv('Performancecorrida.csv',parse_dates=['Data'],dayfirst=
 
 df_corrida.set_index('Data', inplace=True)
 
-#converte coluna ritmo médio para númerico
+#Convert avarage pace to numerical float
 
 df_corrida['Ritmo médio'] = pd.to_numeric(df_corrida['Ritmo médio'], errors='coerce').astype(float)
 df_corrida['Distancia(km)'] = pd.to_numeric(df_corrida['Distancia(km)'], errors='coerce').astype(float)
 df_corrida['1km'] = pd.to_numeric(df_corrida['1km'], errors='coerce').astype(float)
-
-
-# In[17]:
 
 
 #cria através das colunas de duração(s) e distância(km) a velocidade em km/h
